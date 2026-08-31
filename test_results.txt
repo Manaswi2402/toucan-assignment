@@ -1,0 +1,12 @@
+Transaction Starter Project - Test Results
+
+Test Command:
+mvnw.cmd clean test
+
+Test Results:
+Tests run: 6, Failures: 0, Errors: 0, Skipped: 0
+
+BUILD SUCCESS
+
+The complete Maven test suite passed successfully.
+All four REST APIs were also manually tested using Postman.
