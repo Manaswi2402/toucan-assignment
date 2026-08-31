@@ -10,7 +10,8 @@ The service supports creating transactions, retrieving a transaction by ID, upda
 
 - Transaction ID is unique.
 - New transactions are expected to start with an initial status such as `PENDING`.
-- Once a transaction becomes `COMPLETED` or `FAILED`, its status cannot be changed.
+- A transaction can move from `PENDING` to `COMPLETED` or `FAILED`.
+- `COMPLETED` and `FAILED` are treated as final statuses and cannot be changed again.
 - The application uses the H2 in-memory database provided by the starter project.
 
 ## Validation Rules
@@ -24,21 +25,14 @@ A transaction is considered valid when:
 - Transaction type is required.
 - Transaction status is required.
 
-Business validation:
+Additional business validation:
 
-- A duplicate transaction ID returns HTTP `409 Conflict`.
+- Supported transaction types are `PAYMENT` and `REFUND`.
+- A new transaction must have `PENDING` status.
+- A duplicate Transaction ID is rejected with HTTP `409 Conflict`.
 - A transaction that does not exist returns HTTP `404 Not Found`.
-- A status update is allowed only to `COMPLETED` or `FAILED`.
-- A `COMPLETED` or `FAILED` transaction cannot be changed again.
 
 ## API Endpoints
-## Status Transition Rules
-
-- A `PENDING` transaction can be changed to `COMPLETED` or `FAILED`.
-- A `COMPLETED` transaction cannot be changed.
-- A `FAILED` transaction cannot be changed.
-- Status updates are accepted only for `COMPLETED` or `FAILED`.
-
 ### 1. Create Transaction
 
 `POST /api/transactions`
@@ -55,6 +49,7 @@ Example request:
   "transactionStatus": "PENDING"
 }
 ```
+
 ### 2. Get Transaction
 
 `GET /api/transactions/{transactionId}`
@@ -79,15 +74,37 @@ Example:
 
 `GET /api/transactions/customer/CUS001`
 
+## Status Transition Rules
+
+- A PENDING transaction can be changed to COMPLETED or FAILED.
+- A COMPLETED transaction cannot be changed.
+- A FAILED transaction cannot be changed.
+- Status updates are accepted only for COMPLETED or FAILED.
+
+
 ## Testing
 
-Six meaningful tests were added to cover successful transaction creation, invalid transaction amounts, duplicate transaction IDs, and missing transactions.
+Six meaningful tests were added covering:
 
-All four REST operations were also manually tested.
+- Successful transaction creation
+- Invalid transaction amount
+- Duplicate transaction ID
+- Transaction not found
+- Successful transaction status update
+- Customer transaction lookup
+
+All four REST operations were also manually tested using Postman.
 
 The complete test suite passes using:
 
 `mvnw.cmd clean test`
+
+Final test result:
+
+```text
+Tests run: 6, Failures: 0, Errors: 0, Skipped: 0
+BUILD SUCCESS
+```
 
 ## Known Limitations
 
@@ -97,10 +114,6 @@ The complete test suite passes using:
 ## Improvements With More Time
 
 - Use a persistent production database.
-- Introduce custom exceptions for clearer error handling.
+- Add more detailed validation and structured error responses.
 - Add more controller-level integration tests.
 - Use enums for transaction status and transaction type.
-
-## AI Usage Disclosure
-
-AI tools were used for development guidance, debugging assistance, code review, and understanding the implementation. The final implementation was reviewed, tested, and verified by the candidate.
