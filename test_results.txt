@@ -1,12 +1,134 @@
-Transaction Starter Project - Test Results
+# Test Results
 
-Test Command:
-mvnw.cmd clean test
+## Transaction Processing API
 
-Test Results:
+This document contains the automated test results and manual API testing performed for the Transaction Processing API.
+
+## Test Summary
+
+| Test Case | Scenario | Expected Result | Actual Result | Status |
+| --------- | -------- | --------------- | ------------- | ------ |
+| TC01 | Transaction created successfully | HTTP 201 Created | HTTP 201 Created | PASS |
+| TC02 | Transaction rejected due to validation failure | HTTP 400 Bad Request | HTTP 400 Bad Request | PASS |
+| TC03 | Duplicate Transaction ID rejected | Request should be rejected | Duplicate transaction rejected | PASS |
+| TC04 | Request for a transaction that does not exist | HTTP 404 Not Found | HTTP 404 Not Found | PASS |
+
+## Detailed Test Results
+
+### TC01 — Transaction Created Successfully
+
+**Objective:**  
+Verify that a valid transaction can be created successfully.
+
+**Test Scenario:**
+
+* Send a valid transaction request.
+* Provide a valid Transaction ID and required transaction details.
+
+**Expected Result:**  
+The transaction should be created successfully and the API should return `HTTP 201 Created`.
+
+**Actual Result:**  
+The transaction was created successfully.
+
+**Status:** PASS
+
+---
+
+### TC02 — Transaction Rejected Because of Validation Failure
+
+**Objective:**  
+Verify that invalid transaction data is rejected by the API.
+
+**Test Scenario:**
+
+* Send a transaction request with an invalid transaction amount.
+
+**Expected Result:**  
+The API should reject the request and return `HTTP 400 Bad Request`.
+
+**Actual Result:**  
+The invalid transaction was rejected and the validation error response was returned.
+
+**Status:** PASS
+
+---
+
+### TC03 — Duplicate Transaction ID Rejected
+
+**Objective:**  
+Verify that duplicate Transaction IDs are not allowed.
+
+**Test Scenario:**
+
+1. Create a transaction with a valid Transaction ID.
+2. Submit another transaction using the same Transaction ID.
+
+**Expected Result:**  
+The second transaction should be rejected because the Transaction ID already exists.
+
+**Actual Result:**  
+The duplicate Transaction ID was detected and the second transaction was rejected with `HTTP 409 Conflict`.
+
+**Status:** PASS
+
+---
+
+### TC04 — Transaction Not Found
+
+**Objective:**  
+Verify that the API correctly handles a request for a transaction that does not exist.
+
+**Test Scenario:**
+
+* Request a Transaction ID that is not present in the system.
+
+**Expected Result:**  
+The API should return `HTTP 404 Not Found`.
+
+**Actual Result:**  
+The API returned `HTTP 404 Not Found` as expected.
+
+**Status:** PASS
+
+---
+
+## Automated Test Execution Result
+
+The complete Maven test suite was executed using:
+
+`mvnw.cmd clean test`
+
+```text
 Tests run: 6, Failures: 0, Errors: 0, Skipped: 0
+```
 
 BUILD SUCCESS
 
-The complete Maven test suite passed successfully.
-All four REST APIs were also manually tested using Postman.
+## Manual API Testing
+
+All four required REST APIs were also manually tested using **Postman and PowerShell**.
+
+The following scenarios were verified:
+
+- Successful transaction creation → `201 Created`
+- Invalid transaction amount → `400 Bad Request`
+- Non-existent transaction → `404 Not Found`
+- Duplicate Transaction ID → `409 Conflict`
+- Successful transaction status update → `200 OK`
+
+## Overall Test Execution Result
+
+```text
+Total Automated Tests : 6
+Passed                : 6
+Failed                : 0
+Errors                : 0
+Result                : ALL TESTS PASSED
+```
+
+## Conclusion
+
+The complete Maven test suite passed successfully with no failures or errors. The key transaction scenarios were successfully tested, and the application correctly handles transaction creation, validation failures, duplicate Transaction IDs, and requests for non-existent transactions.
+
+**Overall Status: PASS**

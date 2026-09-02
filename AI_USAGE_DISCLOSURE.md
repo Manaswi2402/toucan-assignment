@@ -18,13 +18,13 @@ AI assistance was used to:
 
 ## AI-Suggested Implementation
 
-AI provided suggestions for the transaction entity, service-layer business logic, REST controller, exception handling, automated tests, and documentation.
+AI provided suggestions and guidance for parts of the transaction entity, service-layer business logic, REST controller, exception handling, automated tests, and documentation.
 
 ## Changes and Corrections Made
 
 I reviewed and adapted the suggested code to the provided Spring Boot starter project.
 
-During development, I identified and corrected issues through testing, including duplicate transaction handling, custom exception handling, test expectations, and project configuration issues.
+During development, I identified and corrected issues through testing, including duplicate transaction handling, exception handling, test expectations, and project configuration issues.
 
 ## Verification
 
@@ -37,3 +37,24 @@ Tests run: 6, Failures: 0, Errors: 0, Skipped: 0
 
 BUILD SUCCESS
 ```
+## Manual API Testing
+
+I also manually tested the REST APIs using Postman and PowerShell, including:
+
+- Successful transaction creation → `201 Created`
+- Invalid transaction amount → `400 Bad Request`
+- Non-existent transaction → `404 Not Found`
+- Duplicate Transaction ID → `409 Conflict`
+- Successful transaction status update → `200 OK`
+
+## My Contribution and AI Assistance
+
+AI assistance was used as a supporting resource during the development process for understanding requirements, implementation guidance, code review, and troubleshooting.
+
+I was responsible for understanding the requirements, applying the changes to the starter project, making the final implementation decisions, running the application, testing the APIs, resolving issues, and verifying the final implementation.
+
+## Understanding of the Final Implementation
+
+I understand the code submitted in this repository and can explain the main classes, REST endpoints, validation rules, exception handling, database interaction, status transition logic, and automated tests.
+
+I have reviewed and tested the final implementation and understand the decisions made in the submitted solution.
